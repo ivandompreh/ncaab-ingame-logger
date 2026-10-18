@@ -1,0 +1,18 @@
+# Public-repo CI: no Kalshi data, no raw data, offline tests. Runs on pushes and PRs (never pull_request_target;
+# no secrets are used here).
+name: guard
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - run: python3 tools/kalshi_guard.py
+      - run: python3 tools/no_raw_guard.py
+      - run: python3 tests/test_ingame.py

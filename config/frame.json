@@ -1,0 +1,24 @@
+{
+ "_doc": "Holdout B sampling frame (pre-registered; hashed with the plan; change only via a change-log entry before the freeze). See README 'Sampling frame'.",
+ "max_links": 1,
+ "link_minutes": 350,
+ "overlap_minutes": 10,
+ "pre_minutes": 10,
+ "post_minutes_fit": 150,
+ "post_minutes_log": 170,
+ "start_slot_minutes": [
+  5,
+  20,
+  35,
+  50
+ ],
+ "start_slot_hours": [
+  9,
+  22
+ ],
+ "plan_time_et": "08:40",
+ "pm_us_max_req_per_s": 15,
+ "book_interval_rule": "max(3, n_active/15) s",
+ "espn_interval_rule": "max(10, n_espn/3) s",
+ "rotate_minutes": 30
+}

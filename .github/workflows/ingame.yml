@@ -1,0 +1,249 @@
+# In-game logger (holdout B). PUBLIC repo = code only. Raw data is pushed ONLY to the private repo vars.DATA_REPO
+# over an SSH deploy key (secret DATA_DEPLOY_KEY). No artifacts, no raw data in logs (counts + slugs only).
+# Link-start slots (56 cron entries, GENERATED from config/frame.json) are gated by repo variable INGAME_SLOT,
+# which the 08:40 plan job sets; un-needed slots never get a runner.
+name: ingame
+on:
+  schedule:
+    - cron: '40 8 * * *'   # plan
+      timezone: 'America/New_York'
+    - cron: '15 3 * * *'   # history
+      timezone: 'America/New_York'
+    - cron: '17 7 * * 1'   # heartbeat
+      timezone: 'America/New_York'
+    - cron: '5 9 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 9 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 9 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 9 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 10 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 10 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 10 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 10 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 11 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 11 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 11 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 11 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 12 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 12 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 12 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 12 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 13 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 13 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 13 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 13 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 14 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 14 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 14 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 14 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 15 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 15 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 15 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 15 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 16 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 16 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 16 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 16 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 17 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 17 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 17 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 17 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 18 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 18 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 18 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 18 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 19 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 19 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 19 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 19 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 20 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 20 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 20 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 20 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 21 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 21 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 21 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 21 * * *'
+      timezone: 'America/New_York'
+    - cron: '5 22 * * *'
+      timezone: 'America/New_York'
+    - cron: '20 22 * * *'
+      timezone: 'America/New_York'
+    - cron: '35 22 * * *'
+      timezone: 'America/New_York'
+    - cron: '50 22 * * *'
+      timezone: 'America/New_York'
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "plan | run | history | heartbeat"
+        required: true
+        default: run
+      date:
+        description: "ET date YYYY-MM-DD (default today)"
+        required: false
+      link:
+        description: "link number (chaining)"
+        required: false
+        default: "1"
+      minutes:
+        description: "cap minutes for this link (testing)"
+        required: false
+      games:
+        description: "manual SLUG:ESPN,... (dry-run testing only)"
+        required: false
+permissions:
+  contents: read
+env:
+  IN_DATE: ${{ inputs.date }}
+  IN_LINK: ${{ inputs.link }}
+  DATA_REPO: ${{ vars.DATA_REPO }}
+  DRY: ${{ vars.INGAME_DRY_RUN }}
+jobs:
+  plan:
+    if: github.event.schedule == '40 8 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'plan')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - name: day and branch
+        run: |
+          D="$IN_DATE"; [ -z "$D" ] && D=$(TZ=America/New_York date +%F)
+          P=data; [ "$DRY" = "true" ] && P=dryrun
+          echo "D=$D" >> "$GITHUB_ENV"; echo "BR=$P-${D:0:7}" >> "$GITHUB_ENV"
+      - name: data checkout
+        env: { DATA_DEPLOY_KEY: "${{ secrets.DATA_DEPLOY_KEY }}" }
+        run: tools/data_checkout.sh "$BR"
+      - id: plan
+        run: python3 logger/plan_ingame.py --data datarepo --alias datarepo/ref/pmus_team_alias.tsv --date "$D"
+      - name: push plan
+        run: tools/data_push.sh datarepo "plan $D"
+      - name: enable today's link-start slot (repo variable INGAME_SLOT)
+        env:
+          GH_TOKEN: ${{ secrets.VARS_TOKEN }}
+          SLOT: ${{ steps.plan.outputs.ingame_slot }}
+        run: gh variable set INGAME_SLOT --body "$SLOT" --repo "${{ github.repository }}" && echo "INGAME_SLOT=$SLOT"
+  run:
+    if: (github.event_name == 'workflow_dispatch' && inputs.job == 'run') || (github.event_name == 'schedule' && contains(vars.INGAME_SLOT, format('[{0}]', github.event.schedule)))
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    permissions:
+      contents: read
+      actions: write        # chain: dispatch the next link of the same day
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - name: day, link, branch
+        run: |
+          D="$IN_DATE"; [ -z "$D" ] && D=$(TZ=America/New_York date +%F)
+          LINK="$IN_LINK"; [ -z "$LINK" ] && LINK=1
+          P=data; [ "$DRY" = "true" ] && P=dryrun
+          echo "D=$D" >> "$GITHUB_ENV"; echo "LINK=$LINK" >> "$GITHUB_ENV"; echo "BR=$P-${D:0:7}" >> "$GITHUB_ENV"
+      - name: data checkout
+        env: { DATA_DEPLOY_KEY: "${{ secrets.DATA_DEPLOY_KEY }}" }
+        run: tools/data_checkout.sh "$BR"
+      - name: log
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MINUTES: ${{ inputs.minutes }}
+          GAMES: ${{ inputs.games }}
+        run: |
+          args=(--out datarepo --alias datarepo/ref/pmus_team_alias.tsv --plan "datarepo/plans/$D.json" --date "$D" --link "$LINK")
+          [ "$DRY" = "true" ] && args+=(--dry-run)
+          [ -n "$MINUTES" ] && args+=(--minutes "$MINUTES")
+          [ -n "$GAMES" ] && args+=(--games "$GAMES" --dry-run)
+          args+=(--push-cmd "tools/data_push.sh datarepo 'ingame $D L$LINK part'")
+          args+=(--chain-cmd "gh workflow run ingame.yml --ref ${{ github.ref_name }} -f job=run -f date=$D -f link=$((LINK+1))")
+          python3 logger/ingame_logger.py "${args[@]}"
+      - name: final push
+        if: always()
+        run: tools/data_push.sh datarepo "ingame $D L$LINK final"
+  history:
+    if: github.event.schedule == '15 3 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'history')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - name: day and branch
+        run: |
+          D="$IN_DATE"; [ -z "$D" ] && D=$(TZ=America/New_York date -d yesterday +%F)
+          P=data; [ "$DRY" = "true" ] && P=dryrun
+          echo "D=$D" >> "$GITHUB_ENV"; echo "BR=$P-${D:0:7}" >> "$GITHUB_ENV"
+      - name: data checkout
+        env: { DATA_DEPLOY_KEY: "${{ secrets.DATA_DEPLOY_KEY }}" }
+        run: tools/data_checkout.sh "$BR"
+      - run: python3 logger/history_pull.py --data datarepo --date "$D"
+      - if: always()
+        run: tools/data_push.sh datarepo "history $D"
+  heartbeat:
+    # Public repos: schedules auto-disable after 60 days without repo activity. Weekly commit of date + counts only.
+    if: github.event.schedule == '17 7 * * 1' || (github.event_name == 'workflow_dispatch' && inputs.job == 'heartbeat')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          since=$(date -u -d '7 days ago' +%F)
+          n=$(gh run list --workflow ingame.yml --created ">=$since" --limit 200 --json conclusion,displayTitle --jq '[.[]|select(.conclusion=="success")]|length' || echo "?")
+          mkdir -p status
+          printf 'heartbeat_et=%s\nsuccessful_runs_last_7d=%s\n' "$(TZ=America/New_York date '+%F %H:%M %Z')" "$n" > status/heartbeat.txt
+          python3 tools/no_raw_guard.py
+          git add status/heartbeat.txt
+          git -c user.name=ingame-bot -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -qm "heartbeat $(date -u +%F)" || exit 0
+          git push -q

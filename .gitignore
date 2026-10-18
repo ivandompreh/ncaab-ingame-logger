@@ -1,0 +1,7 @@
+datarepo/
+data/
+dryrun/
+*.jsonl
+*.jsonl.gz
+*.gz
+__pycache__/
