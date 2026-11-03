@@ -16,7 +16,7 @@ if git ls-remote --exit-code --heads "git@github.com:${DATA_REPO}.git" "$b" >/de
 else
   git clone -q --depth 1 "git@github.com:${DATA_REPO}.git" datarepo
   cp datarepo/ref/pmus_team_alias.tsv /tmp/alias.tsv
-  (cd datarepo && git checkout -q --orphan "$b" && git rm -rq . && mkdir -p ref && cp /tmp/alias.tsv ref/ \
+  (cd datarepo && git checkout -q --orphan "$b" && git rm -rfq . && mkdir -p ref && cp /tmp/alias.tsv ref/pmus_team_alias.tsv \
      && printf 'Monthly data branch %s (private). Raw PM US/ESPN data; never publish.\n' "$b" > README.md && git add -A \
      && git -c user.name=ingame-bot -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -qm "open $b" \
      && git push -q origin "$b")
